@@ -5,6 +5,7 @@
  */
 export interface SceneMap {
   title: undefined;
+  story: { storyId: string };
   level: { levelId: string };
   pause: undefined;
 }
