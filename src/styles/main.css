@@ -1,0 +1,132 @@
+:root {
+  --bg: #0b1118;
+  --surface: #1b2733;
+  --text: #e9eef3;
+  --muted: #9fb0bf;
+  --accent: #e8a33d;
+  --on-accent: #1a1204;
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+}
+
+body {
+  display: grid;
+  place-items: center;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+  overflow: hidden;
+}
+
+/* Palco 16:9 que cabe na janela inteira, com barras nas sobras. */
+.stage {
+  position: relative;
+  width: min(100vw, calc(100vh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  container-type: inline-size;
+  touch-action: none;
+}
+
+#game {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Camada de interface. O tamanho da fonte acompanha a largura do palco (960px = 16px). */
+.ui {
+  position: absolute;
+  inset: 0;
+  font-size: 1.6667cqw;
+  pointer-events: none;
+}
+
+.ui > * {
+  pointer-events: auto;
+}
+
+.panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: min(34em, 86%);
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  background: var(--surface);
+  border: 1px solid #33475a;
+  border-radius: 0.5em;
+}
+
+.panel h1,
+.panel h2 {
+  margin: 0;
+  line-height: 1.15;
+}
+
+.panel h1 {
+  font-size: 2em;
+}
+
+.panel h2 {
+  font-size: 1.5em;
+}
+
+.panel p {
+  margin: 0;
+  max-width: 60ch;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.button {
+  font: inherit;
+  font-weight: 600;
+  padding: 0.7em 1.2em;
+  border: 0;
+  border-radius: 0.4em;
+  background: var(--accent);
+  color: var(--on-accent);
+  cursor: pointer;
+}
+
+.button-secondary {
+  background: transparent;
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px #4a6073;
+}
+
+.button:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.hud {
+  position: absolute;
+  left: 1em;
+  top: 1em;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

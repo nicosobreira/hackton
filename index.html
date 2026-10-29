@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Um jogo sobre Margaret Hamilton e o software da Apollo 11." />
+    <title>Hamilton: o software da Apollo</title>
+  </head>
+  <body>
+    <main class="stage" id="stage">
+      <canvas id="game" aria-label="Área do jogo"></canvas>
+      <!-- Camada DOM sobre o canvas: botões, textos e arrastar-e-soltar acessíveis -->
+      <div id="ui" class="ui"></div>
+    </main>
+    <noscript>Este jogo precisa de JavaScript para funcionar.</noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
