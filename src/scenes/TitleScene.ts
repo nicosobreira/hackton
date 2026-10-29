@@ -2,7 +2,7 @@ import { LOGICAL_HEIGHT, LOGICAL_WIDTH } from "../engine/Display";
 import { Scene } from "../engine/Scene";
 import type { GameContext } from "../game/GameContext";
 
-/** Tela inicial. Mostra o uso conjunto de canvas (fundo) e DOM (botão acessível). */
+/** Tela inicial do projeto sobre histórias de mulheres na computação. */
 export class TitleScene extends Scene {
   private panel: HTMLElement | null = null;
   private time = 0;
@@ -15,19 +15,27 @@ export class TitleScene extends Scene {
     const panel = document.createElement("div");
     panel.className = "panel title-panel";
 
+    const eyebrow = document.createElement("p");
+    eyebrow.className = "title-eyebrow";
+    eyebrow.textContent = "HISTÓRIAS DE MULHERES NA COMPUTAÇÃO";
+
     const heading = document.createElement("h1");
-    heading.textContent = "Hamilton: o software da Apollo";
+    heading.textContent = "Código que mudou o mundo";
 
     const text = document.createElement("p");
     text.textContent =
-      "Em 1969, um computador com pouca memória precisou decidir o que era essencial.";
+      "Conheça a história de Margaret Hamilton e descubra como o software ajudou a levar seres humanos à Lua.";
 
     const start = document.createElement("button");
     start.className = "button";
-    start.textContent = "Começar a fase";
+    start.textContent = "Conhecer Margaret Hamilton";
     start.addEventListener("click", () => this.start());
 
-    panel.append(heading, text, start);
+    const more = document.createElement("p");
+    more.className = "title-coming-soon";
+    more.textContent = "Mais histórias em breve.";
+
+    panel.append(eyebrow, heading, text, start, more);
     this.game.ui.append(panel);
     this.panel = panel;
     start.focus();
@@ -44,16 +52,15 @@ export class TitleScene extends Scene {
   }
 
   render(ctx: CanvasRenderingContext2D): void {
-    ctx.fillStyle = "#101922";
+    ctx.fillStyle = "#0b1118";
     ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
 
-    // Linha pulsante, só para mostrar que o canvas está sendo desenhado.
     const pulse = 0.5 + 0.5 * Math.sin(this.time * 2);
     ctx.fillStyle = `rgba(232, 163, 61, ${0.25 + 0.5 * pulse})`;
-    ctx.fillRect(0, LOGICAL_HEIGHT - 6, LOGICAL_WIDTH, 6);
+    ctx.fillRect(0, LOGICAL_HEIGHT - 5, LOGICAL_WIDTH, 5);
   }
 
   private start(): void {
-    this.game.scenes.replace("level", { levelId: "tutorial" });
+    this.game.scenes.replace("story", { storyId: "margaret-hamilton" });
   }
 }
