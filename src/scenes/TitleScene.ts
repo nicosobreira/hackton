@@ -48,7 +48,13 @@ export class TitleScene extends Scene {
 
   update(dt: number): void {
     this.time += dt;
-    if (this.game.input.wasPressed("Enter")) this.start();
+    // Quando o botão está focado, Enter já o ativa nativamente.
+    if (
+      this.game.input.wasPressed("Enter") &&
+      !(document.activeElement instanceof HTMLButtonElement)
+    ) {
+      this.start();
+    }
   }
 
   render(ctx: CanvasRenderingContext2D): void {
