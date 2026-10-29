@@ -1,0 +1,374 @@
+/* ─────────── Tela do jogo ─────────── */
+:root {
+  --danger: #e5484d;
+  --ok: #5eb1bf;
+  --card: #26384a;
+  --card-border: #4a6073;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Aviso "gire o aparelho": só em celular na vertical, só durante o jogo. O jogo pausa enquanto ele aparece. */
+.rotate-hint {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  place-items: center;
+  padding: 2rem;
+  background: var(--bg);
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+@media (orientation: portrait) and (pointer: coarse) {
+  body.in-game .rotate-hint {
+    display: grid;
+  }
+}
+
+/* ─────────── Painel da memória (esquerda) ─────────── */
+.memory {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--memory-width);
+  height: 100%;
+  background: #111b25;
+  border-right: 1px solid #2c3d4d;
+}
+
+.memory::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(229, 72, 77, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s;
+}
+
+/* Alarme 1202: borda vermelha constante + piscada periódica (a piscada some com movimento reduzido). */
+.memory.is-alarm {
+  box-shadow: inset 0 0 0 0.25em rgba(229, 72, 77, 0.55);
+}
+
+.memory.is-flashing::after {
+  opacity: 1;
+}
+
+.memory-top {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--line-y);
+  padding: 1em;
+  display: grid;
+  grid-template-columns: 1fr 5.2em;
+  gap: 1em;
+}
+
+.slots {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5em;
+}
+
+.slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-width: 0;
+  background: #16222d;
+  border: 2px dashed var(--card-border);
+  border-radius: 0.5em;
+}
+
+.slot-emoji {
+  min-height: 1em;
+  font-size: 1.7em;
+  line-height: 1;
+}
+
+.slot-bar {
+  width: 80%;
+  height: 0.4em;
+  overflow: hidden;
+  background: #0e1720;
+  border-radius: 0.2em;
+}
+
+.slot-fill {
+  display: block;
+  height: 100%;
+  background: var(--ok);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* Estados distintos por borda e símbolo, nunca só por cor. */
+.slot--busy {
+  border-style: solid;
+  border-color: var(--ok);
+}
+
+.slot--closing {
+  border-style: solid;
+  border-color: var(--accent);
+}
+
+.slot--closing .slot-fill {
+  background: var(--accent);
+}
+
+.slot--off {
+  border-style: solid;
+  border-color: #2a3744;
+  background: repeating-linear-gradient(45deg, #0d151d 0 0.5em, #111b25 0.5em 1em);
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.slot.can-drop,
+.trash.can-drop {
+  border-style: solid;
+  border-color: #ffffff;
+}
+
+.trash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  background: #16222d;
+  border: 2px solid var(--card-border);
+  border-radius: 0.5em;
+}
+
+.trash-emoji {
+  font-size: 1.9em;
+  line-height: 1;
+}
+
+.trash-label {
+  font-size: 0.8em;
+  color: var(--muted);
+}
+
+.deathline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--line-y);
+  height: 0.4em;
+  margin-top: -0.2em;
+  background: repeating-linear-gradient(-45deg, var(--danger) 0 0.5em, #5a1a1d 0.5em 1em);
+}
+
+.memory-lock {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: calc(var(--line-y) + 3%);
+  translate: -50% 0;
+  padding: 0.3em 0.9em;
+  font-weight: 700;
+  background: rgba(11, 17, 24, 0.9);
+  border: 2px solid var(--danger);
+  border-radius: 0.4em;
+  z-index: 6;
+}
+
+.memory.is-frozen .memory-lock {
+  display: block;
+}
+
+/* ─────────── Tarefas ─────────── */
+.task-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.task {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  width: 8.4em;
+  min-height: 3.4em;
+  padding: 0.4em 0.6em;
+  font-size: 0.9em;
+  line-height: 1.15;
+  background: var(--card);
+  border: 2px solid var(--card-border);
+  border-radius: 0.5em;
+  transform: translateX(-50%);
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+}
+
+.task-emoji {
+  font-size: 1.7em;
+  line-height: 1;
+}
+
+.task-name {
+  min-width: 0;
+}
+
+.task.is-held {
+  box-shadow: 0 0.3em 0.8em rgba(0, 0, 0, 0.5);
+}
+
+.task.is-selected {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.task.is-dragging {
+  z-index: 5;
+  cursor: grabbing;
+  transform: translate(-50%, -50%);
+}
+
+.memory.is-frozen .task {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.memory.is-over .task {
+  pointer-events: none;
+}
+
+/* ─────────── HUD (direita) ─────────── */
+.game-hud {
+  position: absolute;
+  left: var(--memory-width);
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6em;
+  padding: 1em;
+  pointer-events: none;
+}
+
+.game-hud-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.game-hud-time-label {
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
+.game-hud-time-value {
+  font-size: 3em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.game-hud-strikes {
+  display: flex;
+  gap: 0.5em;
+}
+
+.strike {
+  display: block;
+  width: 1.1em;
+  height: 1.1em;
+  border: 2px solid var(--danger);
+  border-radius: 0.2em;
+}
+
+.strike.is-on {
+  background: var(--danger);
+  /* Marcação extra além da cor: um X dentro do quadrado. */
+  background-image: linear-gradient(45deg, transparent 45%, #fff 45% 55%, transparent 55%),
+    linear-gradient(-45deg, transparent 45%, #fff 45% 55%, transparent 55%);
+}
+
+.game-hud-alarm {
+  padding: 0.25em 0.8em;
+  font-size: 0.9em;
+  font-weight: 700;
+  background: var(--danger);
+  border-radius: 0.3em;
+}
+
+.game-hud-debug {
+  position: absolute;
+  left: 1em;
+  bottom: 1em;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  color: var(--muted);
+  text-align: left;
+}
+
+/* ─────────── Mensagem final ─────────── */
+.result-banner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  z-index: 20;
+  padding: 0.5em 1.4em;
+  font-size: 3em;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  background: rgba(11, 17, 24, 0.92);
+  border: 3px solid;
+  border-radius: 0.3em;
+}
+
+.result-banner.is-success {
+  color: var(--ok);
+}
+
+.result-banner.is-failure {
+  color: #ff9a9d;
+}
+
+/* ─────────── Efeitos curtos (desligados com movimento reduzido) ─────────── */
+@keyframes pulse-ok {
+  from { box-shadow: 0 0 0 0 rgba(94, 177, 191, 0.9); }
+  to { box-shadow: 0 0 0 0.9em rgba(94, 177, 191, 0); }
+}
+
+@keyframes pulse-warn {
+  from { box-shadow: 0 0 0 0 rgba(232, 163, 61, 0.9); }
+  to { box-shadow: 0 0 0 0.9em rgba(232, 163, 61, 0); }
+}
+
+@keyframes line-hit {
+  from { filter: brightness(2.2); height: 1em; }
+  to { filter: none; height: 0.4em; }
+}
+
+@keyframes shake {
+  25% { translate: -0.3em 0; }
+  75% { translate: 0.3em 0; }
+}
+
+.slot.is-done { animation: pulse-ok 0.45s; }
+.slot.is-wasted,
+.trash.is-used { animation: pulse-warn 0.45s; }
+.deathline.is-hit { animation: line-hit 0.4s; }
+.task.is-rejected { animation: shake 0.3s; }

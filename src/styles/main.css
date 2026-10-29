@@ -37,6 +37,7 @@ body {
   aspect-ratio: 16 / 9;
   container-type: inline-size;
   touch-action: none;
+  overflow: hidden; /* tarefas nascem abaixo da tela e sobem */
 }
 
 #game {
@@ -113,15 +114,6 @@ body {
 .button:focus-visible {
   outline: 3px solid #ffffff;
   outline-offset: 3px;
-}
-
-.hud {
-  position: absolute;
-  left: 1em;
-  top: 1em;
-  font-family: var(--font-mono);
-  font-size: 0.85em;
-  color: var(--muted);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,8 +1,8 @@
-import { LOGICAL_HEIGHT, LOGICAL_WIDTH } from "../engine/Display";
-import { Scene } from "../engine/Scene";
-import type { GameContext } from "../game/GameContext";
+import { LOGICAL_HEIGHT, LOGICAL_WIDTH } from '../engine/Display';
+import { Scene } from '../engine/Scene';
+import type { GameContext } from '../game/GameContext';
 
-/** Tela inicial. Mostra o uso conjunto de canvas (fundo) e DOM (botão acessível). */
+/** Tela inicial de DESENVOLVIMENTO: só abre o jogo. O menu real é da história. */
 export class TitleScene extends Scene {
   private panel: HTMLElement | null = null;
   private time = 0;
@@ -12,8 +12,8 @@ export class TitleScene extends Scene {
   }
 
   override enter(): void {
-    const panel = document.createElement("div");
-    panel.className = "panel title-panel";
+    const panel = document.createElement('div');
+    panel.className = 'panel title-panel';
 
     const heading = document.createElement("h1");
     heading.textContent = "Hamilton: o software da Apollo";
@@ -35,13 +35,22 @@ export class TitleScene extends Scene {
     this.panel = null;
   }
 
+  /** O jogo foi empilhado por cima: esconde o painel (ele continua na pilha, por baixo). */
+  override pause(): void {
+    if (this.panel) this.panel.hidden = true;
+  }
+
+  override resume(): void {
+    if (this.panel) this.panel.hidden = false;
+  }
+
   update(dt: number): void {
     this.time += dt;
-    if (this.game.input.wasPressed("Enter")) this.start();
+    if (this.game.input.wasPressed('Enter')) this.start();
   }
 
   render(ctx: CanvasRenderingContext2D): void {
-    ctx.fillStyle = "#101922";
+    ctx.fillStyle = '#101922';
     ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
 
     // Linha pulsante, só para mostrar que o canvas está sendo desenhado.
@@ -51,6 +60,6 @@ export class TitleScene extends Scene {
   }
 
   private start(): void {
-    this.game.scenes.replace("level", { levelId: "tutorial" });
+    this.game.scenes.push('game');
   }
 }

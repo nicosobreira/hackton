@@ -1,8 +1,8 @@
 import type { Scene } from './Scene';
 
-// Cena com qualquer tipo de parâmetro (uso interno).
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyScene = Scene<any>;
+// Cena com qualquer tipo de parâmetro (uso interno). Os métodos de `Scene` são bivariantes,
+// então `Scene<{...}>` é aceito como `Scene<unknown>` sem precisar de `any`.
+type AnyScene = Scene<unknown>;
 
 /** Se a cena não recebe parâmetros, o argumento é opcional; senão, é obrigatório. */
 export type SceneArgs<M, K extends keyof M> = M[K] extends undefined
@@ -46,7 +46,7 @@ export class SceneManager<M extends object> {
       const scene = this.create(name);
       this.current?.pause();
       this.stack.push(scene);
-      scene.enter(args[0] as M[K]);
+      scene.enter(args[0]);
     });
   }
 
@@ -62,7 +62,7 @@ export class SceneManager<M extends object> {
       this.stack.pop()?.exit();
       const scene = this.create(name);
       this.stack.push(scene);
-      scene.enter(args[0] as M[K]);
+      scene.enter(args[0]);
     });
   }
 
@@ -71,7 +71,7 @@ export class SceneManager<M extends object> {
       while (this.stack.length > 0) this.stack.pop()?.exit();
       const scene = this.create(name);
       this.stack.push(scene);
-      scene.enter(args[0] as M[K]);
+      scene.enter(args[0]);
     });
   }
 
