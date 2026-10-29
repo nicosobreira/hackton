@@ -30,7 +30,6 @@ body {
   overflow: hidden;
 }
 
-/* Palco 16:9 que cabe na janela inteira, com barras nas sobras. */
 .stage {
   position: relative;
   width: min(100vw, calc(100vh * 16 / 9));
@@ -45,7 +44,6 @@ body {
   height: 100%;
 }
 
-/* Camada de interface. O tamanho da fonte acompanha a largura do palco (960px = 16px). */
 .ui {
   position: absolute;
   inset: 0;
@@ -93,6 +91,25 @@ body {
   line-height: 1.5;
 }
 
+.title-eyebrow,
+.story-eyebrow,
+.story-brand,
+.story-progress {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.title-eyebrow,
+.story-eyebrow {
+  color: var(--accent) !important;
+}
+
+.title-coming-soon {
+  font-size: 0.85em;
+}
+
 .button {
   font: inherit;
   font-weight: 600;
@@ -122,6 +139,121 @@ body {
   font-family: var(--font-mono);
   font-size: 0.85em;
   color: var(--muted);
+}
+
+/* Apresentação de slides: o conteúdo fica no DOM para ser acessível e fácil de editar. */
+.story-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5em;
+  padding: 3.2% 5%;
+  color: var(--text);
+  background: rgb(11 17 24 / 94%);
+  overflow: auto;
+}
+
+.story-slide-top,
+.story-slide-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.story-brand,
+.story-progress {
+  margin: 0;
+  color: var(--muted);
+}
+
+.story-progress {
+  white-space: nowrap;
+}
+
+.story-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4%;
+}
+
+.story-copy {
+  width: min(100%, 48em);
+}
+
+.story-content.has-image .story-copy {
+  width: 56%;
+}
+
+.story-eyebrow {
+  margin: 0 0 1em;
+}
+
+.story-copy h1 {
+  max-width: 16ch;
+  margin: 0;
+  font-size: clamp(2em, 5.2cqw, 4.6em);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+
+.story-text {
+  max-width: 52ch;
+  margin: 1.2em 0 0;
+  color: var(--muted);
+  font-size: clamp(0.95em, 1.55cqw, 1.3em);
+  line-height: 1.55;
+}
+
+.story-image {
+  display: block;
+  width: 40%;
+  max-height: 48cqh;
+  object-fit: contain;
+  border-radius: 0.4em;
+}
+
+.story-slide-footer {
+  border-top: 1px solid #263442;
+  padding-top: 1em;
+}
+
+.story-slide-footer .button {
+  min-width: 8em;
+}
+
+@media (max-aspect-ratio: 4 / 3) {
+  .story-slide {
+    padding: 4%;
+  }
+
+  .story-content.has-image {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+  }
+
+  .story-content.has-image .story-copy,
+  .story-image {
+    width: 100%;
+  }
+
+  .story-image {
+    max-height: 24cqh;
+  }
+
+  .story-copy h1 {
+    font-size: clamp(1.6em, 4cqw, 3em);
+  }
+
+  .story-text {
+    margin-top: 0.7em;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
