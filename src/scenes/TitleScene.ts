@@ -17,17 +17,14 @@ export class TitleScene extends Scene {
 
     const heading = document.createElement("h1");
     heading.textContent = "Hamilton: o software da Apollo";
-
-    const text = document.createElement("p");
-    text.textContent =
-      "Em 1969, um computador com pouca memória precisou decidir o que era essencial.";
+    heading.align = "center";
 
     const start = document.createElement("button");
     start.className = "button";
-    start.textContent = "Começar a fase";
+    start.textContent = "Começar o jogo";
     start.addEventListener("click", () => this.start());
 
-    panel.append(heading, text, start);
+    panel.append(heading, start);
     this.game.ui.append(panel);
     this.panel = panel;
     start.focus();
