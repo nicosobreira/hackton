@@ -7,5 +7,4 @@ export interface SceneMap {
   title: undefined;
   level: { levelId: string };
   pause: undefined;
-  history: undefined;
 }

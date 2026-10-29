@@ -8,7 +8,6 @@ import type { SceneMap } from "./game/SceneMap";
 import { LevelScene } from "./scenes/LevelScene";
 import { PauseScene } from "./scenes/PauseScene";
 import { TitleScene } from "./scenes/TitleScene";
-import { HistoryScene } from "./scenes/HistoryScene";
 
 function getElement<T extends HTMLElement>(selector: string): T {
   const element = document.querySelector<T>(selector);
@@ -31,8 +30,7 @@ const game: GameContext = {
 game.scenes
   .register("title", () => new TitleScene(game))
   .register("level", () => new LevelScene(game))
-  .register("pause", () => new PauseScene(game))
-  .register("history", () => new HistoryScene(game));
+  .register("pause", () => new PauseScene(game));
 
 game.scenes.reset("title");
 
