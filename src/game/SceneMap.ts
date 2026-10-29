@@ -5,7 +5,8 @@
  */
 export interface SceneMap {
   title: undefined;
-  story: { storyId: string };
-  level: { levelId: string };
-  pause: undefined;
+  /** O jogo: abra com `scenes.push('game')`. Ao terminar, ele chama `scenes.replace('ending', ...)`. */
+  game: undefined;
+  /** Contrato com a história: recebe o resultado da partida. */
+  ending: { result: 'success' | 'failure' };
 }

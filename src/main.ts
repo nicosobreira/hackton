@@ -1,14 +1,14 @@
-import "./styles/main.css";
-import { LOGICAL_HEIGHT, LOGICAL_WIDTH, setupCanvas } from "./engine/Display";
-import { GameLoop } from "./engine/GameLoop";
-import { Input } from "./engine/Input";
-import { SceneManager } from "./engine/SceneManager";
-import type { GameContext } from "./game/GameContext";
-import type { SceneMap } from "./game/SceneMap";
-import { LevelScene } from "./scenes/LevelScene";
-import { PauseScene } from "./scenes/PauseScene";
-import { StoryScene } from "./scenes/StoryScene";
-import { TitleScene } from "./scenes/TitleScene";
+import './styles/main.css';
+import './styles/game.css';
+import { LOGICAL_HEIGHT, LOGICAL_WIDTH, setupCanvas } from './engine/Display';
+import { GameLoop } from './engine/GameLoop';
+import { Input } from './engine/Input';
+import { SceneManager } from './engine/SceneManager';
+import type { GameContext } from './game/GameContext';
+import type { SceneMap } from './game/SceneMap';
+import { EndingScene } from './scenes/EndingScene';
+import { GameScene } from './scenes/GameScene';
+import { TitleScene } from './scenes/TitleScene';
 
 function getElement<T extends HTMLElement>(selector: string): T {
   const element = document.querySelector<T>(selector);
@@ -16,8 +16,8 @@ function getElement<T extends HTMLElement>(selector: string): T {
   return element;
 }
 
-const canvas = getElement<HTMLCanvasElement>("#game");
-const ui = getElement<HTMLElement>("#ui");
+const canvas = getElement<HTMLCanvasElement>('#game');
+const ui = getElement<HTMLElement>('#ui');
 const ctx = setupCanvas(canvas);
 
 const game: GameContext = {
@@ -29,12 +29,13 @@ const game: GameContext = {
 
 // Registro das cenas. Cada fábrica recebe o contexto por fechamento.
 game.scenes
-  .register("title", () => new TitleScene(game))
-  .register("story", () => new StoryScene(game))
-  .register("level", () => new LevelScene(game))
-  .register("pause", () => new PauseScene(game));
+  .register('title', () => new TitleScene(game))
+  .register('game', () => new GameScene(game))
+  .register('ending', () => new EndingScene(game));
 
-game.scenes.reset("title");
+game.scenes.reset('title');
+// Atalho de desenvolvimento: abrir direto no jogo com `?scene=game`.
+if (new URLSearchParams(window.location.search).get('scene') === 'game') game.scenes.push('game');
 
 const loop = new GameLoop(
   {
