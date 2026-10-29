@@ -37,11 +37,8 @@ export class StoryScene extends Scene<SceneMap["story"]> {
 
     if (this.game.input.wasPressed("ArrowLeft")) {
       this.goBack();
-    } else if (
-      this.game.input.wasPressed("Enter") ||
-      this.game.input.wasPressed("Space") ||
-      this.game.input.wasPressed("ArrowRight")
-    ) {
+    } else if (this.game.input.wasPressed("ArrowRight")) {
+      // Enter e Espaço já ativam o botão focado de forma nativa.
       this.advance();
     }
   }
