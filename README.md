@@ -43,16 +43,3 @@ src/
 - `render(alpha)` roda uma vez por quadro. `alpha` ∈ [0, 1) é a fração do próximo passo que já passou, usada para interpolar o desenho entre o estado anterior e o atual (veja `LevelScene`).
 - Se o jogo travar ou a aba ficar em segundo plano, o tempo perdido é cortado (máx. 0,25 s por quadro e 5 passos por quadro) para não gerar uma "espiral da morte".
 
-## Como o gerenciador de cenas funciona
-
-- As cenas ficam numa pilha. Só a do topo recebe `update`.
-- Uma cena com `transparent = true` (como a pausa) deixa a de baixo ser desenhada.
-- Trocas pedidas durante um `update` só acontecem no fim dele.
-- Ciclo de vida: `enter` → (`pause` ⇄ `resume`) → `exit`. Crie elementos de interface no `enter` e remova no `exit`.
-
-## Criar uma cena nova
-
-1. Crie `src/scenes/MinhaCena.ts` com `class MinhaCena extends Scene<Params>`.
-2. Adicione `minhaCena: Params | undefined` em `src/game/SceneMap.ts`.
-3. Registre em `src/main.ts`: `.register('minhaCena', () => new MinhaCena(game))`.
-4. Navegue com `game.scenes.push('minhaCena', params)`.
