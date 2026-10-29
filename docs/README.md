@@ -15,9 +15,11 @@ A história da Hamilton será contada em páginas estilo Slide, com textos **gra
 
 Existem duas partes principais: o gerenciamento da memória do Executive e ao lado o módulo de pouso (nave) e a Lua, com indicador de tempo restante. A missão do jogador é gerenciar a memória do computador para a nave **se aproximar** da Lua, até pousar, em um prazo de 80 segundos.
 
+No Mobile, avisar que o celular deve ficar em paisagem, com aviso “gire o aparelho” em retrato.
+
 ### Mecânicas
 
-No topo há 6 blocos de memória que trabalham uma tarefa cada, ao lado uma lixeira para o jogar as tarefas e abaixo uma linha da morte. As tarefas são classificadas em **inúteis** e **essenciais**; elas saem debaixo da tela e vão em direção a linha da morte. Cada tarefa tem nome inspirado no AGC real (ex.: "Guiar a descida" × "Rastrear o radar de encontro") e um ícone. A cor sozinha não pode ser a pista, por acessibilidade. Quando as inúteis tocam a linha da morte, o módulo de pouso retrocede, mas se for uma essencial, o módulo volta mais ainda e por 3 segundos o jogador não consegue mover as tarefas, mantendo a linha da morte ativa. O jogador deve mover as inúteis para a lixeira, caso for uma essencial, o módulo volta um **pouco**. Ele ainda deve mover as essenciais para um dos blocos de memória disponíveis - ocupando um tempo aleatório entre 2 e 4 segundos - é apenas nesse caso que o módulo da nave se aproxima da Lua, mas caso a tarefa seja inútil, ela ocupará um tempo aleatório de 5 a 12 segundos.
+No topo há 6 blocos de memória que trabalham uma tarefa cada, ao lado uma lixeira para o jogar as tarefas e abaixo uma linha da morte. As tarefas são classificadas em **inúteis** e **essenciais**; elas saem debaixo da tela e vão em direção a linha da morte. Cada tarefa tem nome inspirado no AGC real (ex.: "Guiar a descida" × "Rastrear o radar de encontro") e um emoji. A cor sozinha não pode ser a pista, por acessibilidade. Quando as inúteis tocam a linha da morte, o módulo de pouso retrocede, mas se for uma essencial, o módulo volta mais ainda e por 3 segundos o jogador não consegue mover as tarefas, mantendo a linha da morte ativa. O jogador deve mover as inúteis para a lixeira, caso for uma essencial, o módulo volta um **pouco**. Ele ainda deve mover as essenciais para um dos blocos de memória disponíveis - ocupando um tempo aleatório entre 2 e 4 segundos - é apenas nesse caso que o módulo da nave se aproxima da Lua, mas caso a tarefa seja inútil, ela ocupará um tempo aleatório de 5 a 12 segundos.
 
 ### Progressão
 
@@ -30,7 +32,7 @@ O jogo não terá níveis de dificuldade. Cada partida dura aproximadamente 60 s
 - **Muito perto** ou 45 segundos: 3 blocos;
 - **Bastante perto** ou 60 segundos: 2 blocos;
 
-À medida do tempo, a intensidade das tarefas aumenta. Quando o módulo está **perto** ou já se passaram 30 segundos, um evento do erro 1202 vai começar; a tela do Executive vai piscar vermelho em intervalos de 2 segundos. A intensidade das tarefas começa a aumentar e o jogador vai ter que começar a jogar algumas tarefas essenciais no lixo.
+À medida do tempo, a intensidade das tarefas aumenta. Quando o módulo está **perto** ou já se passaram 30 segundos, um evento do erro 1202 vai começar; a tela do Executive vai piscar vermelho em intervalos de 4 segundos. A intensidade das tarefas começa a aumentar e o jogador vai ter que começar a jogar algumas tarefas essenciais no lixo.
 
 ### Módulo de Pouso (Nave)
 
@@ -54,17 +56,11 @@ Em ambos os casos, a história continuar. Não tem outra tentativa.
 
 ## Requisitos técnicos
 
-**Eu vou fazer o tutorial/história faça apenas o jogo**.
-
-- **Tamanho das penalidades**: essencial na lixeira ≤ inútil na linha < essencial na linha. Tudo em números no `config.ts`
-- Todos os tempos devem ser configuráveis.
-
 **Escopo:** só a cena `game` e as mensagens "Missão Falhou / Concluída".
 Fora do escopo: menu, tutorial, história, som.
 
 **Base:** projeto `hamilton-game` (Vite + TypeScript estrito, sem bibliotecas
 de jogo), usando GameLoop, SceneManager e Input existentes.
-Utilize poucas palavras para textos placeholders, como "Título" para algum título.
 
 **Arquitetura:**
 - Regras (tarefas, blocos, distância, penalidades) em módulos puros,
@@ -79,8 +75,10 @@ A cena `ending` é minha.
 
 **Config:** tudo em `src/game/config.ts`, tipado e comentado, com unidade no
 nome (`...Seconds`, `...Px`). Nenhum número mágico no código.
-Nomes e tipos das tarefas em `src/game/tasks.ts`.
-Defina valores iniciais de velocidade e frequência das tarefas em relação ao tempo, proporção de inúteis, passo de aproximação, penalidade, distância total, em um `config.ts`. Eu vou ajustando enquanto jogo.
+- Nomes e tipos das tarefas em `src/game/tasks.ts`.
+- Defina valores iniciais de velocidade e frequência das tarefas em relação ao tempo, proporção de inúteis, passo de aproximação, penalidade, distância total, em um `config.ts`. Eu vou ajustando enquanto jogo.
+- **Tamanho das penalidades**: essencial na lixeira ≤ inútil na linha < essencial na linha. Tudo em números no `config.ts`
+- Todos os tempos devem ser configuráveis.
 
 **Renderização** utilizando formas geométricas simples.
 
