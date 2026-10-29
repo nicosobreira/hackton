@@ -7,6 +7,7 @@ import type { GameContext } from "./game/GameContext";
 import type { SceneMap } from "./game/SceneMap";
 import { LevelScene } from "./scenes/LevelScene";
 import { PauseScene } from "./scenes/PauseScene";
+import { StoryScene } from "./scenes/StoryScene";
 import { TitleScene } from "./scenes/TitleScene";
 
 function getElement<T extends HTMLElement>(selector: string): T {
@@ -29,6 +30,7 @@ const game: GameContext = {
 // Registro das cenas. Cada fábrica recebe o contexto por fechamento.
 game.scenes
   .register("title", () => new TitleScene(game))
+  .register("story", () => new StoryScene(game))
   .register("level", () => new LevelScene(game))
   .register("pause", () => new PauseScene(game));
 
