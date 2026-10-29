@@ -115,7 +115,7 @@ export const defaultConfig: GameConfig = {
     startUnits: 100,
     landingUnits: 0,
     failUnits: 130,
-    approachPerEssentialUnits: 10,
+    approachPerEssentialUnits: 5,
   },
 
   penalties: {
