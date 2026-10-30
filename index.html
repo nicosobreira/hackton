@@ -1,20 +1,159 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content="Um jogo sobre Margaret Hamilton e o software da Apollo 11." />
-    <title>Hamilton: o software da Apollo</title>
-  </head>
-  <body>
-    <main class="stage" id="stage">
-      <canvas id="game" aria-label="Área do jogo"></canvas>
-      <!-- Camada DOM sobre o canvas: botões, textos e arrastar-e-soltar acessíveis -->
-      <div id="ui" class="ui"></div>
-    </main>
-    <!-- Só aparece em celular na vertical, enquanto o jogo está aberto (veja game.css) -->
-    <div class="rotate-hint" role="alert">↻ Gire o aparelho</div>
-    <noscript>Este jogo precisa de JavaScript para funcionar.</noscript>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbf6f2">
+  <meta name="description" content="Conheça Margaret Hamilton e as mulheres que transformaram a ciência e a computação. Explore a história da Apollo 11 e teste suas decisões em uma missão interativa.">
+  <title>Ciência Delas — histórias de mulheres na ciência</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="announcement" role="region" aria-label="Curiosidade científica">
+    <span class="announcement-label">Você sabia?</span>
+    <p id="fato-txt">Margaret Hamilton liderou a equipe responsável pelo software de voo das missões Apollo.</p>
+    <button id="fato-next" class="icon-button" type="button" aria-label="Mostrar outra curiosidade" title="Outra curiosidade">↻</button>
+  </div>
+  <header class="site-header">
+    <a class="brand" href="#inicio" aria-label="Ciência Delas, início"><span class="brand-mark">✳</span> ciência <b>delas</b></a>
+    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="main-nav" type="button">Menu <span aria-hidden="true">☰</span></button>
+    <nav id="main-nav" aria-label="Navegação principal">
+      <a href="#proximas-historias">Histórias</a>
+      <a href="#proximas-historias">Mais cientistas</a>
+      <a href="#aprendizados">O que aprendemos</a>
+      <a href="#feedback">Fale com a gente</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section-wrap" id="inicio">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> Mulheres que mudaram a ciência</p>
+        <h1>O futuro também<br><em>foi escrito por elas.</em></h1>
+        <p class="hero-lead">Conheça mulheres que transformaram a ciência. Escolha uma protagonista na galeria e descubra sua trajetória em cenas interativas — começando por Margaret Hamilton e muitas outras.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#proximas-historias">Escolher uma cientista <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="margaret-hamilton.html">Ver a história e jogar <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="hero-note"><span class="note-star">✦</span><span>História, tecnologia e protagonismo feminino em uma só experiência.</span></div>
+      </div>
+      <div class="hero-art">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="hero-image-frame"><img src="assets/margaret-hamilton.svg" alt="Ilustração de Margaret Hamilton junto a listagens de código da Apollo"></div>
+        <div class="floating-card"><span class="floating-icon">⌘</span><span><b>Software de voo</b><small>Missões Apollo · NASA</small></span></div>
+        <span class="spark spark-one">✦</span><span class="spark spark-two">✧</span><span class="hero-planet"></span>
+      </div>
+      <div class="hero-bottom"><span>01 / A PRIMEIRA DE MUITAS HISTÓRIAS</span><a href="#proximas-historias" aria-label="Rolar para a galeria">↓</a></div>
+    </section>
+
+    <section class="intro-strip">
+      <div class="section-wrap strip-grid">
+        <p class="eyebrow">Muito além do código</p>
+        <p>A chegada à Lua não dependeu apenas de foguetes. Também precisou de pessoas capazes de imaginar problemas antes que eles acontecessem.</p>
+        <span class="strip-flower" aria-hidden="true">✳</span>
+      </div>
+    </section>
+
+    <section class="upcoming section-wrap" id="proximas-historias">
+      <div class="section-heading centered">
+        <p class="eyebrow"><span></span> Galeria de protagonistas</p>
+        <h2>Escolha uma cientista.<br><em>Descubra sua história.</em></h2>
+        <p class="section-description">Cada mulher tem uma trajetória para contar. Selecione uma protagonista e acompanhe sua história em cenas, no seu ritmo.</p>
+      </div>
+      <div class="scientist-grid" id="scientist-grid" aria-label="Escolha uma cientista">
+        <button class="scientist-card" type="button" data-scientist="margaret" aria-pressed="false"><span class="scientist-icon">✦</span><span class="scientist-field">ENGENHARIA DE SOFTWARE</span><strong>Margaret Hamilton</strong><span class="scientist-summary">O código que ajudou a levar a humanidade à Lua.</span><span class="scientist-status">História e jogo ↗</span></button>
+        <button class="scientist-card" type="button" data-scientist="katherine" aria-pressed="false"><span class="scientist-icon">✧</span><span class="scientist-field">MATEMÁTICA · ESPAÇO</span><strong>Katherine Johnson</strong><span class="scientist-summary">Cálculos que ajudaram a abrir caminhos no espaço.</span><span class="scientist-status">Explorar história ↗</span></button>
+        <button class="scientist-card" type="button" data-scientist="ada" aria-pressed="false"><span class="scientist-icon">⌘</span><span class="scientist-field">COMPUTAÇÃO</span><strong>Ada Lovelace</strong><span class="scientist-summary">Uma visão da programação antes dos computadores.</span><span class="scientist-status">Explorar história ↗</span></button>
+        <button class="scientist-card" type="button" data-scientist="marie" aria-pressed="false"><span class="scientist-icon">✳</span><span class="scientist-field">FÍSICA · QUÍMICA</span><strong>Marie Curie</strong><span class="scientist-summary">Descobertas que transformaram a ciência.</span><span class="scientist-status">Explorar história ↗</span></button>
+        <button class="scientist-card" type="button" data-scientist="rosalind" aria-pressed="false"><span class="scientist-icon">❋</span><span class="scientist-field">QUÍMICA · DNA</span><strong>Rosalind Franklin</strong><span class="scientist-summary">Imagens decisivas para compreender o DNA.</span><span class="scientist-status">Explorar história ↗</span></button>
+        <button class="scientist-card" type="button" data-scientist="dorothy" aria-pressed="false"><span class="scientist-icon">♡</span><span class="scientist-field">MATEMÁTICA · COMPUTAÇÃO</span><strong>Dorothy Vaughan</strong><span class="scientist-summary">Liderança e novas oportunidades na NASA.</span><span class="scientist-status">Explorar história ↗</span></button>
+        <button class="scientist-card" type="button" data-scientist="wu" aria-pressed="false"><span class="scientist-icon">☼</span><span class="scientist-field">FÍSICA EXPERIMENTAL</span><strong>Chien-Shiung Wu</strong><span class="scientist-summary">Experimentos que desafiaram antigas certezas.</span><span class="scientist-status">Explorar história ↗</span></button>
+      </div>
+      <p class="upcoming-note">Novas protagonistas e capítulos poderão ser adicionados a esta coleção.</p>
+    </section>
+
+    <section class="story section-wrap" id="historia" aria-label="História em cenas" hidden>
+      <div class="section-heading story-heading">
+        <p class="eyebrow"><span></span> Uma história em cada cena</p>
+        <h2 id="selected-scientist-heading">A história da cientista</h2>
+        <p class="section-description">Avance pelos quadros como em uma pequena cutscene. Use as setas, os pontos de navegação ou o teclado.</p>
+      </div>
+      <div class="cutscene-stage" id="cutscene-stage" tabindex="0" aria-label="Leitor de cenas da história">
+        <div class="cutscene-topbar"><span id="scene-person"></span><span id="scene-label">CENA 01 / 06</span></div>
+        <div class="story-layout" id="story-layout">
+          <div class="story-visual">
+            <div class="story-image-wrap" id="story-image-wrap"><img id="story-image" src="assets/saturn-v.svg" alt="Ilustração do foguete Saturn V"><div id="story-art-symbol" class="story-art-symbol" hidden aria-hidden="true">✦</div></div>
+            <div class="image-caption"><span id="story-image-caption">O foguete Saturn V</span><span class="caption-dot">✦</span></div>
+            <div class="visual-decoration" id="scene-decoration">APOLLO 11 <span>·</span> 1969</div>
+          </div>
+          <div class="story-content" aria-live="polite" aria-atomic="true">
+            <div class="story-count"><span id="story-number">01</span><span class="count-line"></span><span id="story-total">06</span></div>
+            <p class="story-date" id="story-date">Década de 1960</p>
+            <h3 id="story-title">Antes de chegar à Lua</h3>
+            <div id="story-text" class="story-text"><p>A NASA precisava de software confiável para a missão lunar.</p></div>
+            <blockquote id="story-quote">A exploração espacial também depende de linhas de código.</blockquote>
+            <div class="story-controls"><button class="round-button" id="story-prev" type="button" aria-label="Cena anterior">←</button><div class="story-dots" id="story-dots" aria-label="Escolher cena"></div><button class="round-button" id="story-next" type="button" aria-label="Próxima cena">→</button></div>
+            <p class="keyboard-hint">← → para avançar ou voltar · Uma cena por vez</p>
+            <button type="button" class="story-replay" id="story-replay" hidden>↻ Rever do início</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="takeaways" id="aprendizados">
+      <div class="section-wrap">
+        <div class="section-heading centered">
+          <p class="eyebrow"><span></span> Ideias que ficam</p>
+          <h2>O que a história <em>nos ensina</em></h2>
+          <p class="section-description">A trajetória de Margaret é um exemplo de como diferentes mulheres transformam a ciência. Na computação, pensar adiante, priorizar o essencial e construir em equipe pode fazer toda a diferença.</p>
+        </div>
+        <div class="takeaway-grid">
+          <article class="takeaway-card"><span class="takeaway-number">01</span><span class="takeaway-icon">✧</span><h3>Pensar adiante</h3><p>Imaginar situações inesperadas e planejar respostas antes que elas aconteçam.</p></article>
+          <article class="takeaway-card featured"><span class="takeaway-number">02</span><span class="takeaway-icon">⌘</span><h3>Priorizar o essencial</h3><p>Quando os recursos são limitados, tarefas críticas precisam receber atenção primeiro.</p></article>
+          <article class="takeaway-card"><span class="takeaway-number">03</span><span class="takeaway-icon">♡</span><h3>Construir em equipe</h3><p>Grandes conquistas são resultado de colaboração entre muitas pessoas e especialidades.</p></article>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="feedback-section" id="feedback">
+      <div class="section-wrap feedback-layout">
+        <div class="feedback-copy">
+          <p class="eyebrow"><span></span> Sua voz importa</p>
+          <h2>Quem você quer ver<br><em>por aqui?</em></h2>
+          <p>Tem uma cientista para indicar ou uma ideia para deixar o projeto ainda melhor? Vamos adorar saber.</p>
+          <div class="feedback-decoration">✳</div>
+        </div>
+        <form id="form" class="feedback-form" action="https://formspree.io/f/SEU_ID_AQUI" method="POST">
+          <label for="nome">Seu nome <span>(opcional)</span></label>
+          <input id="nome" name="nome" autocomplete="name" placeholder="Como podemos chamar você?">
+          <label for="tipo">O que você quer compartilhar?</label>
+          <select id="tipo" name="tipo"><option>Sugestão de cientista</option><option>Feedback sobre o site</option><option>Outra ideia</option></select>
+          <label for="mensagem">Sua mensagem</label>
+          <textarea id="mensagem" name="mensagem" rows="4" placeholder="Escreva sua ideia aqui..." required></textarea>
+          <button class="button button-primary" type="submit">Enviar mensagem <span>↗</span></button>
+          <p id="form-msg" class="form-message" role="status" aria-live="polite"></p>
+          <p class="form-note">O formulário precisa de um ID do Formspree para enviar mensagens de verdade.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="section-wrap footer-main">
+      <a class="brand footer-brand" href="#inicio"><span class="brand-mark">✳</span> ciência <b>delas</b></a>
+      <p>Histórias que inspiram. Ideias que transformam.</p>
+      <a class="back-top" href="#inicio">Voltar ao início ↑</a>
+    </div>
+    <div class="section-wrap footer-bottom">
+      <span>Projeto educativo · Ciência Delas — histórias de mulheres na ciência</span>
+      <span>Feito com curiosidade e propósito <b>♡</b></span>
+    </div>
+  </footer>
+  <script src="fatos.js"></script>
+  <script src="script.js"></script>
+</body>
 </html>

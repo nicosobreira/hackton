@@ -1,0 +1,38 @@
+# Ciência Delas — site
+
+## Arquivos
+- `index.html`: página principal.
+- `style.css`: cores, tipografia e layout responsivo.
+- `script.js`: curiosidades, navegação da história e formulário.
+- `game.js`: jogo interativo da missão.
+- `fatos.js`: lista de curiosidades.
+- `assets/`: ilustrações SVG utilizadas no site.
+
+## Como abrir
+Abra `index.html` no navegador. Para publicar no GitHub Pages, envie todos os arquivos e a pasta `assets` para o mesmo repositório, mantendo a estrutura.
+
+## Formulário
+O formulário está preparado para o Formspree, mas o endereço ainda contém `SEU_ID_AQUI`. Substitua pelo ID real do seu formulário no Formspree para receber mensagens. Até lá, o site avisa que o envio não está configurado.
+
+## Observação
+As ilustrações e o jogo são recursos educativos. O jogo simplifica conceitos de prioridade e sobrecarga; não reproduz exatamente o software real da Apollo.
+
+
+ATUALIZAÇÃO DE CONTEÚDO
+A página agora deixa claro que Margaret Hamilton é a primeira história de uma coleção em expansão. A seção “Grandes descobertas. Muitas mulheres.” apresenta cientistas que poderão ganhar capítulos próprios: Katherine Johnson, Ada Lovelace, Marie Curie, Rosalind Franklin, Dorothy Vaughan e Chien-Shiung Wu. Os cartões estão identificados como “História em breve” para não sugerir que as biografias completas já estão publicadas.
+
+
+INTEGRAÇÃO DO JOGO DO PROJETO PARCEIRO
+A seção de jogo agora incorpora https://nicosobreira.github.io/hackton/ em um iframe e inclui um link para abrir o jogo em uma nova aba. O jogo é servido pelo repositório publicado do parceiro; para funcionar incorporado, o endereço precisa continuar público e permitir exibição em iframe. Se a moldura ficar vazia ou o jogo pedir orientação de tela, use o botão “Abrir jogo em nova aba”.
+
+ATUALIZAÇÃO: Galeria com sete cientistas e histórias interativas em cenas. Selecione um cartão e navegue com os botões ou setas quando o leitor estiver em foco. O jogo integrado permanece na pasta jogo/.
+
+ATUALIZAÇÃO: HISTÓRIA EM FRAMES (PÁGINA DA MARGARET HAMILTON)
+
+- Em "Escolha uma cientista", o cartão da Margaret Hamilton abre a página `margaret-hamilton.html`: história em frames, no visual escuro do protótipo do Figma, com o jogo no meio. A história e o jogo saíram da página principal.
+- As outras cientistas continuam usando o leitor de cenas da página principal (seção #historia, que só aparece depois de escolher uma delas).
+- O texto vem de `HISTORIA.md`. Depois de editar, rode `node tools/gerar-historia.mjs` para regenerar `historia-dados.js` (não edite esse arquivo à mão). Os arquivos abrem direto no navegador, sem build.
+- `historia.js` guarda o visual de cada faixa de frames (constante VISUAIS) e as ilustrações (IMAGENS). Para usar fotos reais, troque o `src` em IMAGENS.
+- Notas com ">" no HISTORIA.md: "tutorial" vira o tutorial de prioridade; "Começar o jogo" vira o botão que abre o jogo.
+- Integração com o jogo: `jogo/index.html?scene=game&story=1` inicia direto na partida, sem botão de reiniciar nem tela final, e avisa a página (postMessage "hamilton:result") quando termina. A história então mostra uma mensagem de sucesso ou de falha e segue para a Conclusão.
+- Teclas: clique, Enter, Espaço ou seta direita avançam; seta esquerda ou Backspace voltam.

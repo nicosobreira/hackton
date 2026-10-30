@@ -1,0 +1,6 @@
+CIÊNCIA DELAS + JOGO HAMILTON
+
+O jogo original foi adaptado para a paleta do Ciência Delas e incorporado localmente em jogo/index.html.
+Para publicar, envie TODO o conteúdo da pasta ciencia-delas-site para a raiz do seu repositório GitHub Pages, incluindo a pasta jogo.
+O código-fonte TypeScript do jogo está na pasta jogo-fonte, fora do site publicado. Para alterar a lógica, use npm ci e npm run build dentro de jogo-fonte e copie o conteúdo de dist para ciencia-delas-site/jogo.
+O formulário de feedback ainda depende de configuração própria (Formspree).

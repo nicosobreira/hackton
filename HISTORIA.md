@@ -2,6 +2,19 @@
 
 A história é dividida em **frames** — pequenos trechos de texto com imagens, gifs ou mecânicas customizáveis ao lado.
 
+Os frames avançam ao **clicar** na tela ou aperte `ENTER` ou `ESPAÇO`.
+Eles são descritos dessa maneira:
+
+---
+
+## Título
+
+### Frame x
+
+Conteúdo do frame x.
+
+---
+
 ## Introdução
 
 ### Frame 1

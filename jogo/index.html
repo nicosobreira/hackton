@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Um jogo sobre Margaret Hamilton e o software da Apollo 11." />
+    <title>Hamilton: o software da Apollo</title>
+  </head>
+  <body>
+    <main class="stage" id="stage">
+      <canvas id="game" aria-label="Área do jogo"></canvas>
+      <!-- Camada DOM sobre o canvas: botões, textos e arrastar-e-soltar acessíveis -->
+      <div id="ui" class="ui"></div>
+    </main>
+    <!-- Só aparece em celular na vertical, enquanto o jogo está aberto (veja game.css) -->
+    <div class="rotate-hint" role="alert">↻ Gire o aparelho</div>
+    <noscript>Este jogo precisa de JavaScript para funcionar.</noscript>
+    <link rel="stylesheet" href="game.css"><script src="game.bundle.js"></script>
+
+    <style>
+      .cd-restart { position:absolute;top:12px;right:12px;z-index:50;padding:9px 14px;border:1px solid #d9b7d9;border-radius:999px;background:#503258;color:#fbf6f2;font:600 14px system-ui,sans-serif;cursor:pointer;box-shadow:0 3px 14px #24152a66; }
+      .cd-restart:hover,.cd-result button:hover { filter:brightness(1.12); }
+      .cd-result[hidden] {display:none!important;}
+      .cd-result {position:absolute;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:18px;background:#382440ee;color:#fbf6f2;text-align:center;font-family:system-ui,sans-serif;}
+      .cd-result-inner {width:min(520px,95%);padding:26px;border:2px solid #a981b3;border-radius:22px;background:#503258;box-shadow:0 12px 36px #24152a88;}
+      .cd-result h2 {margin:8px 0 12px;font-size:clamp(20px,3vw,32px);}
+      .cd-result p {line-height:1.5;color:#eee5f0;}
+      .cd-result-actions {display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:20px;}
+      .cd-result button {border:0;border-radius:999px;padding:12px 20px;background:#c89b4a;color:#382440;font-weight:700;cursor:pointer;}
+      .cd-result button.secondary {background:#eee5f0;}
+      body.story-mode .ending-panel,body.story-mode .cd-restart,body.story-mode .cd-result{display:none!important;}
+      @media(max-width:650px){.cd-restart{top:5px;right:5px;font-size:11px;padding:6px 10px}.cd-result-inner{padding:16px}}
+    </style>
+    <script>
+      (function () {
+        const stage = document.getElementById('stage');
+        // Modo história (?story=1): a página da Margaret abre o jogo num iframe e recebe o resultado.
+        // Sem "reiniciar" nem tela final própria: quem conduz é a história.
+        const storyMode = new URLSearchParams(window.location.search).get('story') === '1';
+        if (storyMode) document.body.classList.add('story-mode');
+        let notified = false;
+        function notifyParent(success) {
+          if (notified) return;
+          notified = true;
+          try { window.parent.postMessage({ type: 'hamilton:result', result: success ? 'success' : 'failure' }, '*'); } catch (e) {}
+        }
+        const restart = document.createElement('button');
+        restart.type = 'button';
+        restart.className = 'cd-restart';
+        restart.textContent = '↻ Reiniciar partida';
+        restart.setAttribute('aria-label', 'Reiniciar a partida');
+        const gamePath = window.location.pathname;
+        const playAgain = () => window.location.assign(gamePath + '?scene=game');
+        const home = () => window.location.assign(gamePath);
+        restart.addEventListener('click', playAgain);
+        stage.appendChild(restart);
+
+        const result = document.createElement('section');
+        result.className = 'cd-result';
+        result.hidden = true;
+        result.setAttribute('aria-label', 'Fim da partida');
+        result.innerHTML = '<div class="cd-result-inner"><div style="letter-spacing:.13em;color:#ead0e9;font-size:12px">MISSÃO APOLLO · RESULTADO</div><h2 id="cd-result-title">A missão terminou</h2><p>Você pode tentar novamente ou voltar à tela inicial.</p><div class="cd-result-actions"><button type="button" id="cd-play-again">↻ Jogar novamente</button><button type="button" class="secondary" id="cd-back-home">⌂ Voltar ao início</button></div></div>';
+        stage.appendChild(result);
+        result.querySelector('#cd-play-again').addEventListener('click', playAgain);
+        result.querySelector('#cd-back-home').addEventListener('click', home);
+
+        let endTimer = null;
+        const ui = document.getElementById('ui');
+        function checkEnd() {
+          if (storyMode) {
+            const done = ui.querySelector('.ending-panel');
+            if (done) { notifyParent(/conclu/i.test((done.querySelector('h2') || done).textContent || '')); return; }
+            const flag = ui.querySelector('.result-banner');
+            const text = flag && !flag.hidden ? (flag.textContent || '').trim() : '';
+            if (text && !endTimer) endTimer = setTimeout(() => notifyParent(/conclu/i.test(text)), 2600);
+            return;
+          }
+          const ending = ui.querySelector('.ending-panel');
+          // If the game's native ending works, keep its buttons available.
+          if (ending) { result.hidden = true; clearTimeout(endTimer); endTimer = null; return; }
+          const banner = ui.querySelector('.result-banner');
+          const hasResult = banner && !banner.hidden && (banner.textContent || '').trim();
+          if (hasResult && !endTimer && result.hidden) {
+            const label = banner.textContent || '';
+            endTimer = setTimeout(() => {
+              endTimer = null;
+              if (!ui.querySelector('.ending-panel')) {
+                result.querySelector('#cd-result-title').textContent = /conclu/i.test(label) ? 'Missão concluída!' : 'A missão terminou';
+                result.hidden = false;
+                result.querySelector('#cd-play-again').focus();
+              }
+            }, 2600);
+          }
+        }
+        const observer = new MutationObserver(checkEnd);
+        observer.observe(ui, {subtree:true,childList:true,attributes:true,characterData:true});
+        checkEnd();
+      })();
+    </script>
+  </body>
+</html>

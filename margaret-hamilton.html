@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#070b12">
+  <meta name="description" content="A história de Margaret Hamilton e do software da Apollo, contada em frames, com um jogo no meio do caminho.">
+  <title>Margaret Hamilton — Missão Apollo · Ciência Delas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="historia.css">
+</head>
+<body>
+  <div class="palco" id="palco" data-visual="lua">
+    <div class="estrelas" id="estrelas" aria-hidden="true"></div>
+
+    <header class="topo">
+      <p class="topo-rotulo" id="topo-rotulo"><span id="topo-num">01</span> / <span id="topo-secao">INTRODUÇÃO</span><span class="topo-linha" aria-hidden="true"></span><span id="topo-sub" class="topo-sub"></span></p>
+      <a class="topo-sair" href="index.html#proximas-historias">Galeria ✕</a>
+    </header>
+
+    <main class="principal" id="principal">
+      <div class="coluna-texto" aria-live="polite" aria-atomic="true">
+        <p class="frame-texto" id="frame-texto"></p>
+        <div class="frame-extra" id="frame-extra"></div>
+        <button class="continuar" id="continuar" type="button"><span id="continuar-rotulo">Continuar</span> <span aria-hidden="true">→</span></button>
+      </div>
+      <div class="visual" id="visual" aria-hidden="false"></div>
+    </main>
+
+    <div class="camada-jogo" id="camada-jogo" hidden>
+      <div class="moldura-jogo" id="moldura-jogo"></div>
+    </div>
+
+    <footer class="base">
+      <button class="voltar" id="voltar" type="button"><span aria-hidden="true">‹</span> Cena anterior</button>
+      <div class="progresso" role="progressbar" aria-label="Progresso da história" aria-valuemin="1" id="progresso">
+        <span class="progresso-num" id="progresso-num">001 / 001</span>
+        <span class="progresso-trilho"><span class="progresso-barra" id="progresso-barra"></span></span>
+      </div>
+      <p class="dica-teclas">Espaço / Enter</p>
+    </footer>
+    <noscript><p class="sem-js">Esta história precisa de JavaScript para funcionar.</p></noscript>
+  </div>
+  <script src="historia-dados.js"></script>
+  <script src="historia.js"></script>
+</body>
+</html>
