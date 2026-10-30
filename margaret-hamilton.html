@@ -17,7 +17,7 @@
 
     <header class="topo">
       <p class="topo-rotulo" id="topo-rotulo"><span id="topo-num">01</span> / <span id="topo-secao">INTRODUÇÃO</span><span class="topo-linha" aria-hidden="true"></span><span id="topo-sub" class="topo-sub"></span></p>
-      <a class="topo-sair" href="index.html#proximas-historias">Galeria ✕</a>
+      <div class="topo-acoes"><button id="alternar-audio" class="controle-audio" type="button" aria-pressed="false" aria-label="Ativar música">♫ Ativar música</button><a class="topo-sair" href="index.html#proximas-historias">Galeria ✕</a></div>
     </header>
 
     <main class="principal" id="principal">
@@ -43,6 +43,7 @@
     </footer>
     <noscript><p class="sem-js">Esta história precisa de JavaScript para funcionar.</p></noscript>
   </div>
+  <audio id="trilha-historia" src="audio/musica_ambiente_10min.mp3" preload="none" loop></audio>
   <script src="historia-dados.js"></script>
   <script src="historia.js"></script>
 </body>

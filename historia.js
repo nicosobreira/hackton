@@ -66,6 +66,38 @@
   });
 
   let atual = 0, resultado = null, prioridadeOk = false, jogando = false, chaveVisual = "";
+  // Trilha sonora exclusiva da narrativa em frames.
+  const trilha = document.getElementById("trilha-historia");
+  const botaoAudio = document.getElementById("alternar-audio");
+  let musicaAtiva = false;
+  trilha.volume = 0.25;
+  function atualizarBotaoAudio() {
+    botaoAudio.textContent = musicaAtiva ? "♫ Silenciar" : "♫ Ativar música";
+    botaoAudio.setAttribute("aria-pressed", String(musicaAtiva));
+    botaoAudio.setAttribute("aria-label", musicaAtiva ? "Silenciar música" : "Ativar música");
+  }
+  function tocarTrilha() {
+    if (!musicaAtiva || jogando) return;
+    trilha.play().catch(() => {
+      // Bloqueio de autoplay: o visitante pode ativar pelo botão.
+      musicaAtiva = false;
+      atualizarBotaoAudio();
+    });
+  }
+  botaoAudio.addEventListener("click", () => {
+    musicaAtiva = !musicaAtiva;
+    atualizarBotaoAudio();
+    if (musicaAtiva) tocarTrilha();
+    else trilha.pause();
+  });
+  // Inicia somente após interação do usuário, conforme regras dos navegadores.
+  document.addEventListener("pointerdown", (evento) => {
+    if (musicaAtiva || evento.target.closest("#alternar-audio, .topo-sair")) return;
+    musicaAtiva = true;
+    atualizarBotaoAudio();
+    tocarTrilha();
+  }, { once: true });
+
   const el = {
     palco: $("#palco"), texto: $("#frame-texto"), extra: $("#frame-extra"), continuar: $("#continuar"),
     rotuloContinuar: $("#continuar-rotulo"), voltar: $("#voltar"), visual: $("#visual"),
@@ -193,6 +225,7 @@
     el.moldura.replaceChildren(quadro);
     el.camada.hidden = false;
     jogando = true;
+    trilha.pause();
   }
   window.addEventListener("message", (evento) => {
     const quadro = el.moldura.querySelector("iframe");
@@ -202,6 +235,7 @@
     el.moldura.replaceChildren();
     el.camada.hidden = true;
     jogando = false;
+    tocarTrilha();
     atual++; // próximo passo: o frame do resultado
     render();
   });

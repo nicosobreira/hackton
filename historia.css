@@ -123,3 +123,9 @@ button,a{font:inherit;color:inherit}
 }
 @media (max-width:520px){.progresso-trilho{width:60px}.camada-jogo{top:76px;bottom:60px;padding:0 6px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* Controle de trilha da história */
+.topo-acoes{display:flex;align-items:center;gap:clamp(12px,2vw,28px)}
+.controle-audio{border:1px solid #ffffff40;border-radius:999px;background:#ffffff0c;color:var(--texto);padding:10px 14px;cursor:pointer;font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;text-transform:none;white-space:nowrap}
+.controle-audio:hover{border-color:var(--laranja);background:#e8793a20}
+@media(max-width:600px){.topo-acoes{gap:10px}.controle-audio{font-size:.62rem;padding:8px 10px}.topo-rotulo{max-width:50%}}
