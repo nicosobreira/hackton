@@ -1,4 +1,5 @@
 # Hamilton: o software da Apollo
+a
 
 Jogo web (HTML + CSS + TypeScript) sobre Margaret Hamilton, para o hackathon de valorização da mulher na ciência e tecnologia. Nome de trabalho: troque `title` no `index.html` e `name` no `package.json` quando definirem o nome final.
 
